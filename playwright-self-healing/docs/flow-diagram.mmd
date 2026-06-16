@@ -1,0 +1,28 @@
+%%{init: {'theme': 'base'}}%%
+
+flowchart LR
+    subgraph BEFORE["❌ Without Self-Healing"]
+        direction TB
+        B1[Test Runs] --> B2[Selector Fails]
+        B2 --> B3[Test FAILS ❌]
+        B3 --> B4[Manual Fix Required]
+        B4 --> B5[Developer Updates Selector]
+        B5 --> B1
+    end
+
+    subgraph AFTER["✅ With Self-Healing Agent"]
+        direction TB
+        A1[Test Runs] --> A2[Selector Fails]
+        A2 --> A3{Agent Activates}
+        A3 --> A4[Try ARIA Role]
+        A4 -->|miss| A5[Try Text Content]
+        A5 -->|miss| A6[Try Data Attrs]
+        A6 -->|miss| A7[Try Structure]
+        A7 -->|miss| A8[Try AI Inference]
+        A4 -->|hit| A9[Test PASSES ✅]
+        A5 -->|hit| A9
+        A6 -->|hit| A9
+        A7 -->|hit| A9
+        A8 -->|hit| A9
+        A9 --> A10[Log Heal + Confidence]
+    end

@@ -1,0 +1,22 @@
+{
+  "name": "selenium-to-playwright-migration-agent",
+  "version": "1.0.0",
+  "description": "Agentic AI framework that automatically migrates Selenium test suites to Playwright",
+  "scripts": {
+    "migrate": "ts-node src/cli.ts migrate",
+    "migrate:dry-run": "ts-node src/cli.ts migrate --dry-run",
+    "test:selenium": "jest --config jest.config.js tests/selenium/",
+    "test:playwright": "npx playwright test tests/playwright/",
+    "demo": "ts-node src/cli.ts demo",
+    "report": "ts-node src/cli.ts report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "@types/node": "^20.14.0",
+    "jest": "^29.7.0",
+    "selenium-webdriver": "^4.21.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0"
+  },
+  "keywords": ["selenium", "playwright", "migration", "agentic-ai", "test-automation", "code-transformation"]
+}

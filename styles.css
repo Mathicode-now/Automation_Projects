@@ -1,0 +1,304 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --primary: #6c63ff;
+    --success: #4ecdc4;
+    --warning: #ffe66d;
+    --danger: #ff6b6b;
+    --bg: #f8f9ff;
+    --card: #ffffff;
+    --text: #2d3436;
+    --text-light: #636e72;
+    --radius: 16px;
+    --shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+}
+
+.screen {
+    display: none;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Kid Selection */
+#kid-select {
+    text-align: center;
+    padding-top: 60px;
+}
+
+#kid-select h1 {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 40px;
+}
+
+.kid-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.kid-btn {
+    background: var(--card);
+    border: 3px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 30px 20px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--shadow);
+}
+
+.kid-btn:active {
+    transform: scale(0.95);
+}
+
+.kid-btn .emoji {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+/* Dashboard */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#back-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+#kid-name {
+    font-size: 1.5rem;
+}
+
+#streak-badge {
+    background: var(--warning);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* Tabs */
+.tab-bar {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tab {
+    flex-shrink: 0;
+    background: var(--card);
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Tab Content */
+#tab-content {
+    min-height: 400px;
+    padding: 10px 0;
+}
+
+.goal-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: transform 0.15s;
+}
+
+.goal-card:active {
+    transform: scale(0.98);
+}
+
+.goal-card.checked {
+    opacity: 0.7;
+    background: #f0fff0;
+}
+
+.goal-card.checked .goal-text {
+    text-decoration: line-through;
+    color: var(--text-light);
+}
+
+.goal-checkbox {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.goal-card.checked .goal-checkbox {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.goal-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.goal-emoji {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+/* Videos Section */
+.video-category {
+    margin-bottom: 24px;
+}
+
+.video-category h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    padding-left: 4px;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.video-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.video-card iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+}
+
+.video-card .video-title {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Progress Footer */
+footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--bg);
+    padding: 16px 0;
+    margin-top: 20px;
+}
+
+.progress-bar {
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--success));
+    border-radius: 6px;
+    transition: width 0.4s ease;
+    width: 0%;
+}
+
+#progress-text {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Celebration Animation */
+.celebration {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    animation: pop 0.6s ease forwards;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes pop {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.3); }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+/* iPad optimizations */
+@media (min-width: 768px) {
+    .screen { padding: 30px 40px; }
+    #kid-select { padding-top: 100px; }
+    .kid-buttons { gap: 30px; }
+    .kid-btn { padding: 40px 30px; font-size: 1.6rem; }
+    .kid-btn .emoji { font-size: 4rem; }
+    .goal-card { padding: 20px 24px; }
+    .goal-text { font-size: 1.2rem; }
+    .tab { padding: 12px 20px; font-size: 1.05rem; }
+}

@@ -1,0 +1,69 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#6c63ff', 'primaryTextColor': '#fff', 'primaryBorderColor': '#5a52d5', 'lineColor': '#636e72', 'secondaryColor': '#4ecdc4', 'tertiaryColor': '#ffe66d'}}}%%
+
+graph TD
+    subgraph TEST_LAYER["🧪 Test Layer"]
+        A[Playwright Test Suite<br/>checkout-flow.spec.ts<br/>broken-selectors.spec.ts]
+    end
+
+    subgraph FIXTURE_LAYER["🔧 Fixture Layer"]
+        B[Healing Fixture<br/>healing-fixture.ts]
+        B1[smartLocator API]
+    end
+
+    subgraph AGENT_LAYER["🤖 Agentic AI Layer"]
+        C{Self-Healing Agent<br/>self-healing-agent.ts}
+        
+        subgraph STRATEGIES["Healing Strategies (Priority Order)"]
+            S1["1️⃣ ARIA Role<br/>Confidence: 95%"]
+            S2["2️⃣ Text Content<br/>Confidence: 90%"]
+            S3["3️⃣ Data Attributes<br/>Confidence: 85%"]
+            S4["4️⃣ Structural Position<br/>Confidence: 60%"]
+            S5["5️⃣ AI Inference<br/>Confidence: 40-80%"]
+        end
+    end
+
+    subgraph REPORTING["📊 Reporting Layer"]
+        R[Heal Reporter<br/>heal-reporter.ts]
+        R1[Confidence Scores]
+        R2[Strategy Stats]
+        R3[Heal Log]
+    end
+
+    subgraph TARGET_APP["🎯 Target Application"]
+        APP[Summer Goals Web App<br/>index.html + app.js]
+    end
+
+    %% Flow
+    A -->|"uses"| B
+    B -->|"provides"| B1
+    B1 -->|"calls locate()"| C
+
+    C -->|"Primary selector<br/>✅ FOUND"| APP
+    C -->|"Primary selector<br/>❌ FAILED"| S1
+    S1 -->|"❌"| S2
+    S2 -->|"❌"| S3
+    S3 -->|"❌"| S4
+    S4 -->|"❌"| S5
+    S1 -->|"✅"| APP
+    S2 -->|"✅"| APP
+    S3 -->|"✅"| APP
+    S4 -->|"✅"| APP
+    S5 -->|"✅"| APP
+
+    C -->|"logs heals"| R
+    R --> R1
+    R --> R2
+    R --> R3
+
+    %% Styling
+    classDef agent fill:#6c63ff,stroke:#5a52d5,color:#fff
+    classDef strategy fill:#4ecdc4,stroke:#3dbdb5,color:#fff
+    classDef test fill:#ffe66d,stroke:#e6cf5e,color:#333
+    classDef app fill:#ff6b6b,stroke:#e55a5a,color:#fff
+    classDef report fill:#a29bfe,stroke:#8c85e0,color:#fff
+
+    class C agent
+    class S1,S2,S3,S4,S5 strategy
+    class A,B,B1 test
+    class APP app
+    class R,R1,R2,R3 report

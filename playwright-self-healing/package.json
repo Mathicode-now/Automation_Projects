@@ -1,0 +1,18 @@
+{
+  "name": "playwright-self-healing-framework",
+  "version": "1.0.0",
+  "description": "Self-healing test automation framework powered by Agentic AI and Playwright",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:broken": "BROKEN_UI=true npx playwright test",
+    "test:heal": "SELF_HEAL=true BROKEN_UI=true npx playwright test",
+    "report": "npx playwright show-report",
+    "serve": "npx http-server ../  -p 8080 -s"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "openai": "^4.50.0",
+    "http-server": "^14.1.1"
+  },
+  "keywords": ["playwright", "self-healing", "agentic-ai", "test-automation"]
+}
