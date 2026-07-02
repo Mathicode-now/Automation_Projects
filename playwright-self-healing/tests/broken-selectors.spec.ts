@@ -94,4 +94,19 @@ test.describe('Broken Selectors Demo — UI Refactored', () => {
 
     await expect(streak).toBeVisible();
   });
+  //new code to test
+  test('broken: element moved inside new .card-wrapper container', async ({ page, healingAgent }) => {
+    await page.goto('/');
+    await page.locator('[data-kid="kid1"]').click();
+
+    // OLD selector: previously a direct child of .info-panel, 
+    // now nested inside .card-wrapper
+    const bioText = await healingAgent.locate('.info-panel > .bio', {
+      tag: 'p',
+      text: 'Loves building blocks and drawing',
+      parentSelector: '.card-wrapper',
+    });
+
+    await expect(bioText).toBeVisible();
+  });
 });
