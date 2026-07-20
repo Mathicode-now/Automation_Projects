@@ -63,6 +63,5 @@ npm run demo
 
 ## Quick Links
 
-- [Interview Talking Points](./INTERVIEW_TALKING_POINTS.md)
 - [Self-Healing Architecture Diagram](./playwright-self-healing/docs/architecture.mmd)
 - [Migration Flow Diagram](./playwright-self-healing/docs/flow-diagram.mmd)
