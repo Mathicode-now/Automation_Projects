@@ -5,7 +5,7 @@ export default defineConfig({
   timeout: 30000,
   retries: 0,
   use: {
-    baseURL: 'http://localhost:8080',
+    baseURL: 'https://summerschool.lovable.app/',
     screenshot: 'on',
     trace: 'on-first-retry',
   },
@@ -13,9 +13,4 @@ export default defineConfig({
     ['html'],
     ['./src/reporters/heal-reporter.ts'],
   ],
-  webServer: {
-    command: 'npx http-server ../ -p 8080 -s',
-    port: 8080,
-    reuseExistingServer: true,
-  },
 });

@@ -1,112 +1,110 @@
 import { test, expect } from '../src/fixtures/healing-fixture';
 
 /**
- * These tests simulate what happens AFTER a UI refactor.
+ * Morning Quest App — Self-Healing Tests
  * 
- * Scenario: A developer renamed CSS classes, changed IDs, and restructured
- * the HTML. The old selectors no longer work.
+ * These tests simulate what happens AFTER a UI refactor on the Morning Quest homeschool app.
+ * 
+ * Scenario: UI components were refactored with renamed classes, changed IDs, and restructured DOM.
+ * The old selectors no longer work.
  * 
  * WITHOUT self-healing: All tests fail immediately.
- * WITH self-healing: The agent recovers using fallback strategies.
+ * WITH self-healing: The agent recovers using contextual hints and fallback strategies.
  */
 
-test.describe('Broken Selectors Demo — UI Refactored', () => {
+test.describe('Morning Quest App — Broken Selectors Demo', () => {
 
-  test('broken: class renamed from .kid-btn to .user-card', async ({ page, healingAgent }) => {
+  test('broken: profile heading class renamed from .profile-header to .kid-heading', async ({ page, healingAgent }) => {
     await page.goto('/');
 
     // OLD selector (broken after refactor)
-    const users = await healingAgent.locate('.user-card', {
-      role: 'button',
-      className: 'kid-btn',  // Hint: the actual class is still kid-btn
-      parentSelector: '.kid-buttons',
-      text: 'Vihana',
+    // Hint: Element contains "Morning Quest" and is a heading
+    const heading = await healingAgent.locate('.kid-heading', {
+      tag: 'h1',
+      text: 'Morning Quest',
+      className: 'profile-header',
+      role: 'heading',
     });
 
-    await expect(users.first()).toBeVisible();
+    await expect(heading).toBeVisible();
   });
 
-  test('broken: ID renamed from #back-btn to #nav-back', async ({ page, healingAgent }) => {
+  test('broken: add profile button ID changed from #new-profile-btn to #create-kid-action', async ({ page, healingAgent }) => {
     await page.goto('/');
-    await page.locator('[data-kid="kid1"]').click();
 
     // OLD selector (broken)
-    const backButton = await healingAgent.locate('#nav-back', {
+    // Hint: The button has text "Add" and is for creating a profile
+    const addButton = await healingAgent.locate('#create-kid-action', {
       role: 'button',
-      text: '← Back',
-      ariaLabel: 'Go back',
+      text: 'Add',
+      ariaLabel: 'Add new profile',
       tag: 'button',
     });
 
-    await backButton.click();
-    await expect(page.locator('#kid-select.active')).toBeVisible();
+    await expect(addButton).toBeVisible();
   });
 
-  test('broken: data attribute renamed from data-tab to data-section', async ({ page, healingAgent }) => {
+  test('broken: "create first profile" heading moved from h2 to h3', async ({ page, healingAgent }) => {
     await page.goto('/');
-    await page.locator('[data-kid="kid1"]').click();
+
+    // OLD selector (broken - looking for h3 when it's actually still h2)
+    // Hint: The heading contains "Create your first profile" text
+    // Healing agent will recover using the text content strategy
+    const profileHeading = await healingAgent.locate('h3', {
+      tag: 'h2',
+      text: 'Create your first profile',
+      role: 'heading',
+      className: 'profile-heading',
+    });
+
+    await expect(profileHeading).toBeVisible();
+    const headingText = await profileHeading.textContent();
+    expect(headingText).toContain('Create your first profile');
+  });
+
+  test('broken: dashboard link class changed from .nav-dashboard to .header-link', async ({ page, healingAgent }) => {
+    await page.goto('/');
 
     // OLD selector (broken)
-    const socialTab = await healingAgent.locate('[data-section="social"]', {
+    // Hint: Link that says "Parent Dashboard"
+    const dashboardLink = await healingAgent.locate('.header-link', {
       role: 'button',
-      text: '🤝 Social',
-      dataAttributes: { tab: 'social' },  // Hint: actual attr is data-tab
+      text: 'Parent Dashboard',
       tag: 'button',
+      className: 'nav-dashboard',
     });
 
-    await socialTab.click();
-
-    // Verify social goals are visible
-    const kindWordsGoal = await healingAgent.locate('[data-item="s1"]', {
-      text: 'Use kind words all day',
-      dataAttributes: { goal: 's1' },  // Actual attr is data-goal
-      className: 'goal-card',
-    });
-    await expect(kindWordsGoal).toBeVisible();
+    await expect(dashboardLink).toBeVisible();
   });
 
-  test('broken: progress element ID changed', async ({ page, healingAgent }) => {
+  test('broken: profile creation section wrapper moved to .form-container from .profile-form', async ({ page, healingAgent }) => {
     await page.goto('/');
-    await page.locator('[data-kid="kid1"]').click();
-    await page.locator('[data-goal="d1"]').click();
 
     // OLD selector (broken)
-    const progressLabel = await healingAgent.locate('#completion-text', {
-      tag: 'p',
-      parentSelector: 'footer',
-      text: 'done today',
-    });
-
-    const text = await progressLabel.textContent();
-    expect(text).toContain('done today');
-  });
-
-  test('broken: streak badge class changed', async ({ page, healingAgent }) => {
-    await page.goto('/');
-    await page.locator('[data-kid="kid1"]').click();
-
-    // OLD selector (broken)
-    const streak = await healingAgent.locate('.fire-streak-badge', {
-      text: 'day streak',
+    // Hint: Section containing the heading and form elements
+    const formSection = await healingAgent.locate('.profile-form', {
       tag: 'div',
-      className: 'streak-badge',
+      parentSelector: '.form-container',
+      text: 'Create your first profile',
+      role: 'region',
     });
 
-    await expect(streak).toBeVisible();
+    await expect(formSection).toBeVisible();
   });
-  //new code to test
-  test('broken: element moved inside new .card-wrapper container', async ({ page, healingAgent }) => {
-    await page.goto('/');
-    await page.locator('[data-kid="kid1"]').click();
 
-    // OLD selector: previously a direct child of .info-panel, 
-    // now nested inside .card-wrapper
-    const bioText = await healingAgent.locate('.info-panel > .bio', {
-      tag: 'p',
-      text: 'Loves building blocks and drawing',
-      parentSelector: '.card-wrapper',
+  test('broken: emoji avatar button class renamed from .emoji-selector to .avatar-picker', async ({ page, healingAgent }) => {
+    await page.goto('/');
+
+    // OLD selector (broken)
+    // Hint: Button containing emoji character for avatar selection
+    const emojiButton = await healingAgent.locate('.avatar-picker', {
+      role: 'button',
+      tag: 'button',
+      className: 'emoji-selector',
+      text: '🦊',
+      ariaLabel: 'Select fox avatar',
     });
 
-    await expect(bioText).toBeVisible();
+    await expect(emojiButton).toBeVisible();
   });
 });

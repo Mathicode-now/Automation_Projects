@@ -1,0 +1,109 @@
+
+> playwright-self-healing-framework@1.0.0 test:heal
+> SELF_HEAL=true BROKEN_UI=true npx playwright test --reporter=list
+
+
+Running 6 tests using 1 worker
+
+
+🔍 [HEAL] Primary selector failed: ".kid-heading"
+   Context: {"tag":"h1","text":"Morning Quest","className":"profile-header","role":"heading"}
+   ✅ Healed via text-content (confidence: 90%)
+   New selector: "text="Morning Quest""
+
+📊 Self-Healing Summary:
+   Healed: 1 selectors
+   Avg confidence: 90%
+   Strategies used: { 'text-content': 1 }
+  ✓  1 tests/broken-selectors.spec.ts:17:7 › Morning Quest App — Broken Selectors Demo › broken: profile heading class renamed from .profile-header to .kid-heading (2.7s)
+
+🔍 [HEAL] Primary selector failed: "#create-kid-action"
+   Context: {"role":"button","text":"Add","ariaLabel":"Add new profile","tag":"button"}
+   ✅ Healed via text-content (confidence: 90%)
+   New selector: "text="Add""
+
+📊 Self-Healing Summary:
+   Healed: 1 selectors
+   Avg confidence: 90%
+   Strategies used: { 'text-content': 1 }
+  ✓  2 tests/broken-selectors.spec.ts:32:7 › Morning Quest App — Broken Selectors Demo › broken: add profile button ID changed from #new-profile-btn to #create-kid-action (2.4s)
+
+🔍 [HEAL] Primary selector failed: "[placeholder="Child name"]"
+   Context: {"role":"textbox","tag":"input","parentSelector":"form","dataAttributes":{"testid":"profile-input"}}
+  ✘  3 tests/broken-selectors.spec.ts:47:7 › Morning Quest App — Broken Selectors Demo › broken: profile input placeholder text changed from "Kid name" to "Child name" (4.4s)
+
+🔍 [HEAL] Primary selector failed: ".header-link"
+   Context: {"role":"button","text":"Parent Dashboard","tag":"button","className":"nav-dashboard"}
+   ✅ Healed via text-content (confidence: 90%)
+   New selector: "text="Parent Dashboard""
+
+📊 Self-Healing Summary:
+   Healed: 1 selectors
+   Avg confidence: 90%
+   Strategies used: { 'text-content': 1 }
+  ✓  4 tests/broken-selectors.spec.ts:62:7 › Morning Quest App — Broken Selectors Demo › broken: dashboard link class changed from .nav-dashboard to .header-link (2.6s)
+
+🔍 [HEAL] Primary selector failed: ".profile-form"
+   Context: {"tag":"div","parentSelector":".form-container","text":"Create your first profile","role":"region"}
+   ✅ Healed via text-content (confidence: 90%)
+   New selector: "text="Create your first profile""
+
+📊 Self-Healing Summary:
+   Healed: 1 selectors
+   Avg confidence: 90%
+   Strategies used: { 'text-content': 1 }
+  ✓  5 tests/broken-selectors.spec.ts:77:7 › Morning Quest App — Broken Selectors Demo › broken: profile creation section wrapper moved to .form-container from .profile-form (2.7s)
+
+🔍 [HEAL] Primary selector failed: ".avatar-picker"
+   Context: {"role":"button","tag":"button","className":"emoji-selector","dataAttributes":{"avatar":"fox"}}
+  ✘  6 tests/broken-selectors.spec.ts:92:7 › Morning Quest App — Broken Selectors Demo › broken: emoji avatar button class renamed from .emoji-selector to .avatar-picker (5.2s)
+
+
+  1) tests/broken-selectors.spec.ts:47:7 › Morning Quest App — Broken Selectors Demo › broken: profile input placeholder text changed from "Kid name" to "Child name" 
+
+    Error: [HEAL FAILED] Could not recover selector: "[placeholder="Child name"]". All 5 strategies exhausted.
+
+       at ../src/agent/self-healing-agent.ts:71
+
+      69 |     }
+      70 |
+    > 71 |     throw new Error(
+         |           ^
+      72 |       `[HEAL FAILED] Could not recover selector: "${primarySelector}". ` +
+      73 |       `All ${strategies.length} strategies exhausted.`
+      74 |     );
+        at SelfHealingAgent.locate (/workspaces/Automation_Projects/playwright-self-healing/src/agent/self-healing-agent.ts:71:11)
+        at /workspaces/Automation_Projects/playwright-self-healing/tests/broken-selectors.spec.ts:52:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/broken-selectors-Morning-Q-a0121-rom-Kid-name-to-Child-name-/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/broken-selectors-Morning-Q-a0121-rom-Kid-name-to-Child-name-/error-context.md
+
+  2) tests/broken-selectors.spec.ts:92:7 › Morning Quest App — Broken Selectors Demo › broken: emoji avatar button class renamed from .emoji-selector to .avatar-picker 
+
+    Error: [HEAL FAILED] Could not recover selector: ".avatar-picker". All 5 strategies exhausted.
+
+       at ../src/agent/self-healing-agent.ts:71
+
+      69 |     }
+      70 |
+    > 71 |     throw new Error(
+         |           ^
+      72 |       `[HEAL FAILED] Could not recover selector: "${primarySelector}". ` +
+      73 |       `All ${strategies.length} strategies exhausted.`
+      74 |     );
+        at SelfHealingAgent.locate (/workspaces/Automation_Projects/playwright-self-healing/src/agent/self-healing-agent.ts:71:11)
+        at /workspaces/Automation_Projects/playwright-self-healing/tests/broken-selectors.spec.ts:97:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/broken-selectors-Morning-Q-ae725-i-selector-to-avatar-picker/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/broken-selectors-Morning-Q-ae725-i-selector-to-avatar-picker/error-context.md
+
+  2 failed
+    tests/broken-selectors.spec.ts:47:7 › Morning Quest App — Broken Selectors Demo › broken: profile input placeholder text changed from "Kid name" to "Child name" 
+    tests/broken-selectors.spec.ts:92:7 › Morning Quest App — Broken Selectors Demo › broken: emoji avatar button class renamed from .emoji-selector to .avatar-picker 
+  4 passed (22.3s)
