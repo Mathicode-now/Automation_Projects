@@ -11,8 +11,12 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0",
-    "openai": "^4.50.0",
     "http-server": "^14.1.1"
   },
-  "keywords": ["playwright", "self-healing", "agentic-ai", "test-automation"]
+  "keywords": [
+    "playwright",
+    "self-healing",
+    "agentic-ai",
+    "test-automation"
+  ]
 }

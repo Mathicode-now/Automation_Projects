@@ -23,7 +23,9 @@ This framework wraps Playwright with an **Agentic AI layer** that:
 | 2 | Text Content | 90% | Matches visible text |
 | 3 | Data Attributes | 85% | Falls back to data-* attributes |
 | 4 | Structural Position | 60% | Uses parent + index |
-| 5 | AI Inference | 40-80% | DOM analysis + scoring algorithm |
+| 5 | AI Inference | 0-100%* | Local LLM (Llama via Ollama) reasons over DOM candidates |
+
+\* Strategy 5 asks a local Llama model (served by [Ollama](https://ollama.com)) to pick the best-matching element and report its own confidence. If Ollama isn't running, the model isn't pulled, or the call times out, it falls back to the original local heuristic scorer (capped at 80%) — no external API, no network egress, no hard failure either way.
 
 ## Quick Start
 
@@ -43,6 +45,31 @@ npm run test:broken
 # Run with self-healing ENABLED (tests recover)
 npm run test:heal
 ```
+
+### Optional: local LLM for Strategy 5
+
+Strategy 5 (AI Inference) can call a real local model instead of just the
+heuristic scorer, via [Ollama](https://ollama.com) — no cloud API key, no
+data leaving your machine.
+
+```bash
+# Install Ollama, then pull a small local model
+ollama pull llama3.2
+
+npm run test:heal
+```
+
+Config (all optional, sensible defaults shown):
+
+| Env var | Default | Purpose |
+|---|---|---|
+| `SELF_HEAL_LLM` | `true` | Set to `false` to skip the LLM call and go straight to heuristic scoring |
+| `OLLAMA_HOST` | `http://localhost:11434` | Ollama server URL |
+| `OLLAMA_MODEL` | `llama3.2` | Any model you've pulled with `ollama pull` |
+| `OLLAMA_TIMEOUT_MS` | `8000` | Abort and fall back to heuristics if Ollama doesn't respond in time |
+
+If Ollama isn't installed or isn't running, Strategy 5 silently falls back
+to the original DOM-scoring heuristic — the framework never depends on it.
 
 ## Project Structure
 
@@ -113,7 +140,7 @@ With self-healing: **all tests pass** using fallback strategies.
 
 ## Key Design Decisions
 
-- **No external AI API required** — the agent uses DOM analysis and heuristic scoring locally
+- **No cloud AI API required** — Strategy 5 reasons with a local Llama model via Ollama (or falls back to local DOM/heuristic scoring if Ollama isn't available); no keys, no external network calls
 - **Confidence scoring** — each heal reports how sure it is (useful for CI/CD thresholds)
 - **Strategy ordering** — most reliable strategies run first (ARIA > text > structure)
 - **Context hints** — tests provide what they know about the element, agent uses this for recovery
@@ -124,5 +151,5 @@ With self-healing: **all tests pass** using fallback strategies.
 1. **Agentic pattern**: The agent observes (failure), reasons (DOM analysis), and acts (selector recovery)
 2. **Graceful degradation**: Confidence scoring lets you set thresholds (e.g., reject heals < 70%)
 3. **Real ROI**: Eliminates hours of selector maintenance per sprint
-4. **Extensible**: Strategy 5 can plug into any LLM API for more sophisticated reasoning
+4. **Extensible**: Strategy 5 calls a local Llama model via Ollama today; swapping in a different model or a hosted LLM API is a one-line change (`OLLAMA_MODEL`/`OLLAMA_HOST`, or a new `heal*` method)
 5. **Production-ready patterns**: Custom fixtures, reporters, environment-based toggles
