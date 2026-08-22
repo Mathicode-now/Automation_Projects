@@ -145,11 +145,4 @@ With self-healing: **all tests pass** using fallback strategies.
 - **Strategy ordering** — most reliable strategies run first (ARIA > text > structure)
 - **Context hints** — tests provide what they know about the element, agent uses this for recovery
 - **Zero runtime overhead** when selectors work — agent only activates on failure
-
-## Interview Talking Points
-
-1. **Agentic pattern**: The agent observes (failure), reasons (DOM analysis), and acts (selector recovery)
-2. **Graceful degradation**: Confidence scoring lets you set thresholds (e.g., reject heals < 70%)
-3. **Real ROI**: Eliminates hours of selector maintenance per sprint
-4. **Extensible**: Strategy 5 calls a local Llama model via Ollama today; swapping in a different model or a hosted LLM API is a one-line change (`OLLAMA_MODEL`/`OLLAMA_HOST`, or a new `heal*` method)
-5. **Production-ready patterns**: Custom fixtures, reporters, environment-based toggles
+- **Production-ready patterns**: Custom fixtures, reporters, environment-based toggles
